@@ -1,0 +1,20 @@
+{
+  "cabinets": [
+    {"id": "CAB-A", "label": "东门柜阵", "site": "园区东门"},
+    {"id": "CAB-B", "label": "驿站侧柜", "site": "北侧驿站"}
+  ],
+  "cells": [
+    {"id": "CAB-A-01", "cabinet_id": "CAB-A", "code": "A01", "size_code": "S"},
+    {"id": "CAB-A-02", "cabinet_id": "CAB-A", "code": "A02", "size_code": "M"},
+    {"id": "CAB-A-03", "cabinet_id": "CAB-A", "code": "A03", "size_code": "M"},
+    {"id": "CAB-A-04", "cabinet_id": "CAB-A", "code": "A04", "size_code": "L"},
+    {"id": "CAB-B-01", "cabinet_id": "CAB-B", "code": "B01", "size_code": "M"},
+    {"id": "CAB-B-02", "cabinet_id": "CAB-B", "code": "B02", "size_code": "M"}
+  ],
+  "events": [
+    {"id": "E1", "cabinet_id": "CAB-A", "cell_id": "CAB-A-01", "event_type": "drop", "event_ts": "2026-11-18T08:00:00Z", "tracking_no": "TN1001", "payload": {}},
+    {"id": "E2", "cabinet_id": "CAB-A", "cell_id": "CAB-A-02", "event_type": "drop", "event_ts": "2026-11-18T09:00:00Z", "tracking_no": "TN1002", "payload": {}},
+    {"id": "E3", "cabinet_id": "CAB-A", "cell_id": "CAB-A-01", "event_type": "pickup", "event_ts": "2026-11-18T12:00:00Z", "tracking_no": "TN1001", "payload": {}},
+    {"id": "E4", "cabinet_id": "CAB-B", "cell_id": "CAB-B-01", "event_type": "drop", "event_ts": "2026-11-18T10:30:00Z", "tracking_no": "TN2001", "payload": {}}
+  ]
+}

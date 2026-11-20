@@ -1,0 +1,19 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "11100:11100"
+    volumes:
+      - lockerbay_data:/data
+      - ./fixtures:/fixtures:ro
+    environment:
+      DATA_DIR: /data
+      FIXTURES_DIR: /fixtures
+  frontend:
+    build: ./frontend
+    ports:
+      - "6100:80"
+    depends_on:
+      - backend
+volumes:
+  lockerbay_data:

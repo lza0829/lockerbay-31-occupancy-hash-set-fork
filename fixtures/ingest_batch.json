@@ -1,0 +1,5 @@
+{
+  "events": [
+    {"id": "E5", "cabinet_id": "CAB-A", "cell_id": "CAB-A-03", "event_type": "drop", "event_ts": "2026-11-19T02:00:00Z", "tracking_no": "TN1003", "payload": {}}
+  ]
+}
