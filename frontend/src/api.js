@@ -25,5 +25,9 @@ export const api = {
   setOverdue: (overdue_hours) =>
     req('/api/settings/overdue-hours', { method: 'PUT', body: JSON.stringify({ overdue_hours }) }),
   ingest: () => req('/api/ingest/run', { method: 'POST', body: '{}' }),
-  occupancyHashMembers: (id) => req(`/api/occupancy-hash-members/${id}`),
+  occupancyHashMembers: (id) => req(`/api/occupancy-hash-members/${encodeURIComponent(id)}`),
+  occupancyHashMembersVerify: (id) =>
+    req(`/api/occupancy-hash-members/${encodeURIComponent(id)}/verify`),
+  hashLookup: (contentHash) =>
+    req(`/api/occupancy-hash-lookup/${encodeURIComponent(contentHash)}`),
 }

@@ -140,14 +140,52 @@ def put_overdue(body: dict = Body(...)):
     finally:
         conn.close()
 
-# --- plant routes ---
+# --- 占用指纹成员集合反查（hash → 成员事件 id 集合）只读核证接口 ---
 from app.modules import occupancy_hash_members as hash_mem
+
 
 @router.get("/occupancy-hash-members/{occupancy_id}")
 def occupancy_hash_members(occupancy_id: str):
+    """成员反查核证只读接口：hash → 反查成员集合，并与正算成员互逆对账。
+
+    占用不存在返回 404；反查缺行 / 与正算分叉时 aligned=false 并给原因，
+    禁止只展示 hash 不建反查、禁止冒充成功。
+    """
     conn = connect()
     try:
-        return hash_mem.members_of(conn, occupancy_id)
+        try:
+            return hash_mem.members_of(conn, occupancy_id)
+        except KeyError as e:
+            raise HTTPException(404, str(e))
+    finally:
+        conn.close()
+
+
+@router.get("/occupancy-hash-lookup/{content_hash:path}")
+def occupancy_hash_lookup(content_hash: str):
+    """基线所无的按 hash 反查核证只读接口：hash → 占用成员 id 集合。
+
+    无该 hash 的反查行返回 404（修复前 hash 反查 404 / 空集合问题）。
+    """
+    conn = connect()
+    try:
+        try:
+            return hash_mem.members_by_hash(conn, content_hash)
+        except KeyError as e:
+            raise HTTPException(404, str(e))
+    finally:
+        conn.close()
+
+
+@router.get("/occupancy-hash-members/{occupancy_id}/verify")
+def occupancy_hash_members_verify(occupancy_id: str):
+    """开占用后核「正算成员 ⇔ 反查同集」的只读核证接口。人为清空反查即失败。"""
+    conn = connect()
+    try:
+        try:
+            return hash_mem.verify_members(conn, occupancy_id)
+        except KeyError as e:
+            raise HTTPException(404, str(e))
     finally:
         conn.close()
 

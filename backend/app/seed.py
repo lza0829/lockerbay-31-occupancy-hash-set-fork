@@ -81,6 +81,21 @@ CREATE TABLE IF NOT EXISTS occupancy_proof_audits (
   reason TEXT NOT NULL DEFAULT '',
   created_at TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS occupancy_hash_members (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  occupancy_id TEXT NOT NULL,
+  content_hash TEXT NOT NULL,
+  member_event_id TEXT NOT NULL,
+  ord INTEGER NOT NULL,
+  created_at TEXT NOT NULL,
+  UNIQUE(occupancy_id, member_event_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_occ_hash_members_hash
+  ON occupancy_hash_members(content_hash);
+CREATE INDEX IF NOT EXISTS idx_occ_hash_members_occ
+  ON occupancy_hash_members(occupancy_id, ord);
 """
 
 

@@ -1,0 +1,11 @@
+# Python
+__pycache__/
+*.py[cod]
+backend/data/
+
+# Node
+node_modules/
+frontend/dist/
+
+# 本地临时库 / 夹具产物
+*.db

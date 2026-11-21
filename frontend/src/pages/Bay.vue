@@ -32,6 +32,14 @@ onMounted(async () => {
             <div class="meta">{{ cell.size_code }} · {{ cell.status === 'occupied' ? '占用' : '空闲' }}</div>
           </div>
           <div class="meta" v-if="cell.status === 'occupied' && cell.occupancy?.tracking_no">{{ cell.occupancy.tracking_no }}</div>
+          <div
+            class="meta"
+            v-if="cell.occupancy"
+            :style="cell.occupancy.reverse_aligned ? 'color:#27ae60' : 'color:#c0392b;font-weight:600'"
+            :title="cell.occupancy.reverse_aligned ? '正算成员 ⇔ 反查同集' : ('反查异常：' + cell.occupancy.reverse_fail_reason)"
+          >
+            {{ cell.occupancy.reverse_aligned ? '✓ 反查同集 ' + (cell.occupancy.reverse_member_ids || []).length : '✗ 反查分叉' }}
+          </div>
           <span class="dot" />
         </div>
       </div>

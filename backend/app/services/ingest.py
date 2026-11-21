@@ -61,6 +61,10 @@ def run_batch():
         )
         conn.commit()
         return {"batch_id": batch_id, "accepted": accepted, "total": len(events)}
+    except Exception:
+        # 硬约束：失败整笔回滚——半截 proof/反查写入不得残留 hash 在而反查空
+        conn.rollback()
+        raise
     finally:
         conn.close()
 

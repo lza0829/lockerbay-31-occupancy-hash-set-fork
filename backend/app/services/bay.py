@@ -1,3 +1,4 @@
+from app.modules import occupancy_hash_members as ohm
 from app.modules import occupancy_hash_proof as ohp
 
 
@@ -34,6 +35,13 @@ def cabinet_matrix(conn):
                 (cell["id"],),
             ).fetchone()
             cell["occupancy"] = dict(occ) if occ else None
+            # 格阵占用列表与 hash 派生集合同源对账：占用物化行携带反查核证结果
+            if cell["occupancy"] is not None:
+                rev = ohm.members_of(conn, occ["id"])
+                cell["occupancy"]["content_hash"] = rev["hash"]
+                cell["occupancy"]["reverse_member_ids"] = rev["member_ids"]
+                cell["occupancy"]["reverse_aligned"] = rev["aligned"]
+                cell["occupancy"]["reverse_fail_reason"] = rev["fail_reason"]
         out.append({**cab, "cells": cells})
     return out
 
